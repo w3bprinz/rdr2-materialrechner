@@ -40,11 +40,12 @@ const prices = {
 const actualSellingPrices = {
   Harz: 0.3,
   Zellstoff: 0.3,
+  Sand: 0.3,
+  Fasern: 0.3,
   Hartholz: 0.7,
   Weichholz: 0.7,
   Hartholzbretter: 0.6,
   Weichholzbretter: 0.6,
-  Fasern: 0.3,
   Whiskeyfass: 8,
   Seil: 2,
   Werkzeugstiel: 2.5,
@@ -159,7 +160,7 @@ function calculateCosts(item, quantity) {
 // Schrittanzeige und Kostenberechnung
 function displaySteps(container, item, quantity) {
   const steps = getSteps(item, quantity);
-  let totalCost = 0; // Gesamtkosten für die Herstellung
+  let totalCost = 0;
   container.innerHTML = ""; // Vorherigen Inhalt löschen
 
   steps.forEach((step, index) => {
@@ -173,9 +174,23 @@ function displaySteps(container, item, quantity) {
 
     totalCost += stepCost;
 
+    // Erstelle den Schritt als <div> mit fettgedrucktem "Schritt X" und Materialien darunter
     const stepText = document.createElement("div");
-    stepText.textContent = `Schritt ${index + 1}: ${materials} für ${step.yield * step.batches} x ${step.item}`;
-    container.appendChild(stepText); // Schritt in das übergebene Container-Element einfügen
+
+    // "Schritt X" als fettgedruckte Überschrift
+    const stepTitle = document.createElement("strong");
+    stepTitle.textContent = `Schritt ${index + 1}: `;
+
+    // Materialien für den Schritt in einer neuen Zeile anzeigen
+    const stepMaterials = document.createElement("span");
+    stepMaterials.innerHTML = `${materials} für ${step.yield * step.batches} x ${step.item}<br>`;
+
+    // Füge alles zusammen
+    stepText.appendChild(stepTitle);
+    stepText.appendChild(stepMaterials);
+
+    // Füge den Schritt in das übergebene Container-Element ein
+    container.appendChild(stepText);
   });
 
   return totalCost; // Gesamtkosten zurückgeben
