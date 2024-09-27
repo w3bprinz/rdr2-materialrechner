@@ -321,7 +321,7 @@ function updateTable() {
       } = calculateCosts(item, quantity);
 
       // Update der Tabellenzellen mit Werten pro Stück
-      costCell.textContent = `$${costPerUnit.toFixed(2)}`;
+      costCell.textContent = `$${totalCost.toFixed(2)}`;
       sellPrice20Cell.textContent = `$${sellingPrice20PerUnit.toFixed(2)}`;
       sellPrice100Cell.textContent = `$${sellingPrice100PerUnit.toFixed(2)}`;
       profit20Cell.textContent = `$${profit20PerUnit.toFixed(2)}`;
