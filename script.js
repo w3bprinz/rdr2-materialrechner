@@ -3,7 +3,7 @@ const items = [
   { name: "Harz", yield: 10, materials: { Baumstamm: 1 } },
   { name: "Fasern", yield: 10, materials: { Baumstamm: 1 } },
   { name: "Zellstoff", yield: 10, materials: { Baumstamm: 1 } },
-  { name: "Sand", yield: 2, materials: { Stein: 2 } },
+  { name: "Sand", yield: 2, materials: { Stein: 1 } },
   { name: "Papier", yield: 5, materials: { Zellstoff: 5 } },
   { name: "Poster", yield: 5, materials: { Papier: 5 } },
   { name: "Schleifpapier", yield: 5, materials: { Sand: 5, Harz: 5 } },
