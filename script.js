@@ -220,10 +220,15 @@ function getSteps(item, quantity, level = 1) {
 // Berechnung der Kosten und Verkaufspreise
 function calculateCosts(item, quantity) {
   const dummyContainer = document.createElement("div");
-  const totalCost = displaySteps(dummyContainer, item, quantity); // Berechne die gesamten Herstellungskosten
 
-  // Herstellungskosten pro Stück berechnen
-  const costPerUnit = totalCost / item.yield;
+  // Berechne die tatsächliche Menge, die durch item.yield teilbar ist
+  const adjustedQuantity = Math.ceil(quantity / item.yield) * item.yield;
+
+  // Gesamtkosten für die angepasste Menge berechnen
+  const totalCost = displaySteps(dummyContainer, item, adjustedQuantity);
+
+  // Herstellungskosten pro Stück
+  const costPerUnit = totalCost / adjustedQuantity;
 
   // Verkaufspreise und Gewinne pro Stück berechnen
   const sellingPrice20PerUnit = costPerUnit * 1.2;
@@ -248,6 +253,7 @@ function calculateCosts(item, quantity) {
     actualSellingPrice,
     comparisonDollar,
     comparisonPercent,
+    adjustedQuantity, // Neue Menge zurückgeben
   };
 }
 
