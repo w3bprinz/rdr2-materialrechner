@@ -1,172 +1,113 @@
-const items = [
-  { name: "Harz", yield: 10, materials: { Baumstamm: 1 } },
-  { name: "Verpackung", yield: 5, materials: { Papier: 10 } },
-  { name: "Pfeifenrohling", yield: 1, materials: { Schleifpapier: 1, Weichholz: 1 } },
-  { name: "Zellstoff", yield: 10, materials: { Baumstamm: 1 } },
-  { name: "Hartholz", yield: 5, materials: { Baumstamm: 1 } },
-  { name: "Weichholz", yield: 5, materials: { Baumstamm: 1 } },
-  { name: "Hartholzbretter", yield: 5, materials: { Hartholz: 2 } },
-  { name: "Weichholzbretter", yield: 5, materials: { Weichholz: 2 } },
-  { name: "Fasern", yield: 10, materials: { Baumstamm: 1 } },
-  { name: "Whiskeyfass", yield: 10, materials: { Hartholzbretter: 20, Fassbänder: 20 } },
-  { name: "Seil", yield: 1, materials: { Zellstoff: 1, Baumwolle: 3 } },
-  { name: "Werkzeugstiel", yield: 2, materials: { Schleifpapier: 2, Hartholz: 2 } },
-  { name: "Spindel", yield: 1, materials: { Weichholz: 1 } },
-  { name: "Poster", yield: 5, materials: { Papier: 5 } },
-  { name: "Goldwaschtisch", yield: 1, materials: { Weichholz: 5, Hartholz: 5, Nägel: 10 } },
-  { name: "Holzplanke", yield: 4, materials: { Baumstamm: 1 } },
-  { name: "Schleifpapier", yield: 5, materials: { Sand: 5, Harz: 5 } },
-  { name: "Papier", yield: 5, materials: { Zellstoff: 5 } },
-  { name: "Repetier-Schaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
-  { name: "Revolver/Pistolengriff", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
-  { name: "Gewehr-Schaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
-  { name: "Schrotflintenschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
-];
-
+// Materialpreise definieren (Beispiel)
 const prices = {
-  Baumwolle: 0.1,
-  Hickorynuss: 0.1,
-  Walnuss: 0.1,
   Baumstamm: 0.5,
-  Fasern: 0.1,
-  Nägel: 0.38,
-  Fassbänder: 2.2,
-  Bienenwachs: 1.5,
-  Stein: 0.1,
-  Sand: 0.1,
+  Harz: 1.0,
+  Sand: 0.2,
+  Weichholz: 0.75,
+  Schleifpapier: 1.5,
+  // Weitere Materialien mit Preisen
 };
 
-const itemList = document.getElementById("item-list");
-
-items.forEach((item) => {
-  const row = document.createElement("tr");
-  const nameCell = document.createElement("td");
-  nameCell.textContent = item.name;
-  row.appendChild(nameCell);
-
-  const yieldCell = document.createElement("td");
-  yieldCell.textContent = item.yield;
-  row.appendChild(yieldCell);
-
-  const quantityCell = document.createElement("td");
-  const quantityInput = document.createElement("input");
-  quantityInput.type = "number";
-  quantityInput.min = "0";
-  quantityInput.value = "0";
-  quantityInput.addEventListener("input", () => calculateMaterials(item, quantityInput.value));
-  quantityCell.appendChild(quantityInput);
-  row.appendChild(quantityCell);
-
-  const materialsCell = document.createElement("td");
-  materialsCell.id = `materials-${item.name}`;
-  row.appendChild(materialsCell);
-
-  const stepsCell = document.createElement("td");
-  stepsCell.id = `steps-${item.name}`;
-  stepsCell.classList.add("steps-cell");
-  row.appendChild(stepsCell);
-
-  const costCell = document.createElement("td");
-  costCell.id = `cost-${item.name}`;
-  row.appendChild(costCell);
-
-  itemList.appendChild(row);
-});
-
-function calculateMaterials(item, quantity) {
-  const materialsCell = document.getElementById(`materials-${item.name}`);
-  const stepsCell = document.getElementById(`steps-${item.name}`);
-  const costCell = document.getElementById(`cost-${item.name}`);
-  materialsCell.innerHTML = "";
-  stepsCell.innerHTML = "";
-  costCell.innerHTML = "";
-  const materials = getMaterials(item, quantity);
-  displayMaterials(materialsCell, materials);
-  displaySteps(stepsCell, item, quantity);
-  const cost = calculateCost(materials);
-  costCell.textContent = `$${cost.toFixed(2)}`;
-}
-
-function getMaterials(item, quantity) {
-  const materials = {};
-  const batches = Math.ceil(quantity / item.yield);
-  for (const [material, amount] of Object.entries(item.materials)) {
-    const totalAmount = amount * batches;
-    if (items.some((i) => i.name === material)) {
-      const subMaterials = getMaterials(
-        items.find((i) => i.name === material),
-        totalAmount
-      );
-      materials[material] = totalAmount;
-      for (const [subMaterial, subAmount] of Object.entries(subMaterials)) {
-        materials[subMaterial] = (materials[subMaterial] || 0) + subAmount;
-      }
-    } else {
-      materials[material] = (materials[material] || 0) + totalAmount;
-    }
-  }
-  return materials;
-}
-
-function displayMaterials(container, materials) {
-  for (const [material, amount] of Object.entries(materials)) {
-    const materialText = document.createElement("div");
-    materialText.textContent = `${material}: ${amount}`;
-    container.appendChild(materialText);
-  }
-}
-
 function displaySteps(container, item, quantity) {
-  const steps = getSteps(item, quantity); // Schritte in der natürlichen Reihenfolge
+  const steps = getSteps(item, quantity);
+  let totalCost = 0; // Gesamtkosten für die Herstellung
+
   steps.forEach((step, index) => {
     const materials = step.materials.map((material) => `${material.amount} x ${material.name}`).join(" & ");
+
+    // Berechne die Kosten für diesen Schritt
+    const stepCost = step.materials.reduce((sum, material) => {
+      const materialCost = prices[material.name] || 0;
+      return sum + material.amount * materialCost;
+    }, 0);
+
+    totalCost += stepCost;
+
     const stepText = document.createElement("div");
     stepText.textContent = `Schritt ${index + 1}: ${materials} für ${step.yield * step.batches} x ${step.item}`;
     container.appendChild(stepText);
   });
+
+  return totalCost; // Gesamtkosten zurückgeben
 }
 
-function getSteps(item, quantity, level = 1) {
-  const steps = [];
-  const batches = Math.ceil(quantity / item.yield);
+function calculateCosts(item, quantity) {
+  const totalCost = displaySteps(document.createElement("div"), item, quantity);
 
-  // Materialien für den aktuellen Schritt sammeln
-  const materialsForStep = [];
+  // Berechnung der Verkaufspreise und Gewinne
+  const sellingPrice20 = totalCost * 1.2;
+  const sellingPrice100 = totalCost * 2.0;
+  const profit20 = sellingPrice20 - totalCost;
+  const profit100 = sellingPrice100 - totalCost;
 
-  for (const [material, amount] of Object.entries(item.materials)) {
-    const totalAmount = amount * batches;
+  return {
+    totalCost,
+    sellingPrice20,
+    sellingPrice100,
+    profit20,
+    profit100,
+  };
+}
 
-    // Prüfe, ob das Material ein herstellbares Produkt ist
-    const subItem = items.find((i) => i.name === material);
+function updateTable() {
+  const itemList = document.getElementById("item-list");
+  itemList.innerHTML = ""; // Tabelle zurücksetzen
 
-    if (subItem) {
-      // Rekursiv die Schritte für das herstellbare Material hinzufügen
-      const subSteps = getSteps(subItem, totalAmount, level + 1);
-      steps.push(...subSteps); // Füge die Sub-Schritte zuerst ein (rekursiv)
-    }
+  items.forEach((item) => {
+    const row = document.createElement("tr");
 
-    // Füge das Material zu den Materialien des aktuellen Schritts hinzu
-    materialsForStep.push({ name: material, amount: totalAmount });
-  }
+    const nameCell = document.createElement("td");
+    nameCell.textContent = item.name;
+    row.appendChild(nameCell);
 
-  // Füge den aktuellen Schritt für das Produkt hinzu
-  steps.push({
-    level,
-    item: item.name,
-    yield: item.yield,
-    batches,
-    materials: materialsForStep,
+    const yieldCell = document.createElement("td");
+    yieldCell.textContent = item.yield;
+    row.appendChild(yieldCell);
+
+    const quantityCell = document.createElement("td");
+    const quantityInput = document.createElement("input");
+    quantityInput.type = "number";
+    quantityInput.min = "1";
+    quantityInput.value = "1";
+    quantityCell.appendChild(quantityInput);
+    row.appendChild(quantityCell);
+
+    const materialsCell = document.createElement("td");
+    row.appendChild(materialsCell);
+
+    const stepsCell = document.createElement("td");
+    row.appendChild(stepsCell);
+
+    const costCell = document.createElement("td");
+    row.appendChild(costCell);
+
+    const sellPrice20Cell = document.createElement("td");
+    row.appendChild(sellPrice20Cell);
+
+    const sellPrice100Cell = document.createElement("td");
+    row.appendChild(sellPrice100Cell);
+
+    const profit20Cell = document.createElement("td");
+    row.appendChild(profit20Cell);
+
+    const profit100Cell = document.createElement("td");
+    row.appendChild(profit100Cell);
+
+    // Berechne die Herstellungskosten und Verkaufspreise
+    quantityInput.addEventListener("input", () => {
+      const quantity = parseInt(quantityInput.value, 10) || 1;
+      const { totalCost, sellingPrice20, sellingPrice100, profit20, profit100 } = calculateCosts(item, quantity);
+
+      costCell.textContent = `$${totalCost.toFixed(2)}`;
+      sellPrice20Cell.textContent = `$${sellingPrice20.toFixed(2)}`;
+      sellPrice100Cell.textContent = `$${sellingPrice100.toFixed(2)}`;
+      profit20Cell.textContent = `$${profit20.toFixed(2)}`;
+      profit100Cell.textContent = `$${profit100.toFixed(2)}`;
+    });
+
+    itemList.appendChild(row);
   });
-
-  return steps;
 }
 
-function calculateCost(materials) {
-  let totalCost = 0;
-  for (const [material, amount] of Object.entries(materials)) {
-    if (prices[material] !== undefined) {
-      totalCost += prices[material] * amount;
-    }
-  }
-  return totalCost;
-}
+// Aufruf zum Aktualisieren der Tabelle
+updateTable();
