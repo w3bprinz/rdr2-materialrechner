@@ -71,6 +71,22 @@ const actualSellingPrices = {
   // Weitere Verkaufspreise...
 };
 
+function formatComparisonPercent(percent) {
+  let cssClass = ""; // Standardklasse (keine Klasse)
+
+  if (percent < 0) {
+    cssClass = "red-bold"; // Unter 0%: ROT und FETT
+  } else if (percent >= 0 && percent <= 20) {
+    cssClass = "red"; // 0-20%: ROT
+  } else if (percent > 20 && percent <= 50) {
+    cssClass = "orange"; // 25-50%: ORANGE
+  } else if (percent > 50) {
+    cssClass = "green"; // Über 50%: GRÜN
+  }
+
+  return cssClass;
+}
+
 // Schrittanzeige und Kostenberechnung
 function displaySteps(container, item, quantity) {
   const steps = getSteps(item, quantity);
@@ -349,20 +365,22 @@ function updateTable() {
       } = calculateCosts(item, quantity);
 
       // Update der Tabellenzellen mit Werten pro Stück
-      costCell.textContent = `$${totalCost.toFixed(2)}`;
+      costCell.textContent = `$${costPerUnit.toFixed(2)}`;
       sellPrice20Cell.textContent = `$${sellingPrice20PerUnit.toFixed(2)}`;
       sellPrice100Cell.textContent = `$${sellingPrice100PerUnit.toFixed(2)}`;
       profit20Cell.textContent = `$${profit20PerUnit.toFixed(2)}`;
       profit100Cell.textContent = `$${profit100PerUnit.toFixed(2)}`;
       actualSellPriceCell.textContent = `$${actualSellingPrice.toFixed(2)}`;
       comparisonDollarCell.textContent = `$${comparisonDollar.toFixed(2)}`;
+
+      // Vergleichsprozent formatieren
       comparisonPercentCell.textContent = `${comparisonPercent.toFixed(2)}%`;
+      comparisonPercentCell.className = formatComparisonPercent(comparisonPercent); // Wende die entsprechende CSS-Klasse an
 
       // Anzeige der Materialien und Zwischenschritte
       materialsCell.innerHTML = ""; // Vorherige Materialien zurücksetzen
       stepsCell.innerHTML = ""; // Vorherige Schritte zurücksetzen
 
-      // Fülle die Materialien und Schritte neu
       const materials = item.materials;
       materialsCell.textContent = Object.keys(materials)
         .map((mat) => `${materials[mat]} x ${mat}`)
