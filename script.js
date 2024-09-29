@@ -26,6 +26,7 @@ const items = [
   { name: "RevolverPistolengriff", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
   { name: "Gewehrschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
   { name: "Schrotflintenschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
+  { name: "Baumwolle", yield: 6, materials: { Baumwollsamen: 1 } },
 ];
 
 // Materialpreise definieren (Beispiel)
@@ -37,6 +38,7 @@ const prices = {
   Fassbänder: 2.2,
   Nägel: 0.38,
   Stein: 0.1,
+  Baumwollsamen: 0.25,
   // Weitere Materialien mit Preisen
 };
 
