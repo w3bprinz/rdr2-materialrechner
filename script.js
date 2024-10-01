@@ -1,76 +1,75 @@
 // Definition der herstellbaren Gegenstände (items)
 const items = [
-  { name: "Harz", yield: 10, materials: { Baumstamm: 1 } },
+  { name: "Baumwolle", yield: 6, materials: { Baumwollsamen: 1 } },
   { name: "Fasern", yield: 10, materials: { Baumstamm: 1 } },
-  { name: "Zellstoff", yield: 10, materials: { Baumstamm: 1 } },
-  { name: "Sand", yield: 2, materials: { Stein: 1 } },
-  { name: "Papier", yield: 5, materials: { Zellstoff: 5 } },
-  { name: "Poster", yield: 5, materials: { Papier: 5 } },
-  { name: "Schleifpapier", yield: 5, materials: { Sand: 5, Harz: 5 } },
-  { name: "Seil", yield: 1, materials: { Zellstoff: 1, Baumwolle: 3 } },
-  { name: "Holzplanke", yield: 4, materials: { Baumstamm: 1 } },
-  { name: "Hartholz", yield: 5, materials: { Baumstamm: 1 } },
-  { name: "Weichholz", yield: 5, materials: { Baumstamm: 2 } },
-  { name: "Hartholzbretter", yield: 5, materials: { Hartholz: 2 } },
-  { name: "Weichholzbretter", yield: 5, materials: { Weichholz: 2 } },
-  { name: "Radspeiche", yield: 1, materials: { Weichholz: 1 } },
-  { name: "Verpackung", yield: 5, materials: { Papier: 10 } },
-  { name: "Holzkiste", yield: 1, materials: { Weichholz: 4, Nägel: 8 } },
-  //{ name: "Holzbündel", yield: 1, materials: { Werkzeugstiel: 1, Repairkit: 5, Holzkiste: 1, Verpackung: 10 } },
-  //{ name: "Spindel", yield: 1, materials: { Weichholz: 1 } },
-  { name: "Pfeifenrohling", yield: 1, materials: { Schleifpapier: 10, Weichholz: 10 } },
-  { name: "Whiskeyfass", yield: 10, materials: { Hartholzbretter: 20, Fassbänder: 20 } },
+  { name: "Gewehrschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
   { name: "Goldwaschtisch", yield: 1, materials: { Weichholz: 5, Hartholz: 5, Nägel: 10 } },
-  { name: "Werkzeugstiel", yield: 2, materials: { Schleifpapier: 2, Hartholz: 2 } },
+  { name: "Hartholz", yield: 5, materials: { Baumstamm: 1 } },
+  { name: "Hartholzbretter", yield: 5, materials: { Hartholz: 2 } },
+  { name: "Harz", yield: 10, materials: { Baumstamm: 1 } },
+  //{ name: "Holzbündel", yield: 1, materials: { Werkzeugstiel: 1, Repairkit: 5, Holzkiste: 1, Verpackung: 10 } },
+  { name: "Holzplanke", yield: 4, materials: { Baumstamm: 1 } },
+  { name: "Holzkiste", yield: 1, materials: { Weichholz: 4, Nägel: 8 } },
+  { name: "Papier", yield: 5, materials: { Zellstoff: 5 } },
+  { name: "Pfeifenrohling", yield: 1, materials: { Schleifpapier: 10, Weichholz: 10 } },
+  { name: "Poster", yield: 5, materials: { Papier: 5 } },
+  { name: "Radspeiche", yield: 1, materials: { Weichholz: 1 } },
   { name: "Repetierschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
   { name: "RevolverPistolengriff", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
-  { name: "Gewehrschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
+  { name: "Sand", yield: 2, materials: { Stein: 1 } },
+  { name: "Schleifpapier", yield: 5, materials: { Sand: 5, Harz: 5 } },
   { name: "Schrotflintenschaft", yield: 1, materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 } },
-  { name: "Baumwolle", yield: 6, materials: { Baumwollsamen: 1 } },
+  { name: "Seil", yield: 1, materials: { Zellstoff: 1, Baumwolle: 3 } },
+  //{ name: "Spindel", yield: 1, materials: { Weichholz: 1 } },
+  { name: "Verpackung", yield: 5, materials: { Papier: 10 } },
+  { name: "Weichholz", yield: 5, materials: { Baumstamm: 2 } },
+  { name: "Weichholzbretter", yield: 5, materials: { Weichholz: 2 } },
+  { name: "Werkzeugstiel", yield: 2, materials: { Schleifpapier: 2, Hartholz: 2 } },
+  { name: "Whiskeyfass", yield: 10, materials: { Hartholzbretter: 20, Fassbänder: 20 } },
+  { name: "Zellstoff", yield: 10, materials: { Baumstamm: 1 } },
 ];
 
 // Materialpreise definieren (Beispiel)
 const prices = {
   Baumstamm: 0.6,
+  Baumwollsamen: 0.25,
   //Harz: 0.3,
   //Weichholz: 0.7,
   //Schleifpapier: 0.5,
   Fassbänder: 2.2,
   Nägel: 0.38,
   Stein: 0.1,
-  Baumwollsamen: 0.25,
   // Weitere Materialien mit Preisen
 };
 
 // Tatsächliche Verkaufspreise
 const actualSellingPrices = {
-  Harz: 0.3,
-  Zellstoff: 0.3,
-  Sand: 0.3,
   Fasern: 0.3,
-  Holzplanke: 0.8,
-  Hartholz: 0.7,
-  Weichholz: 0.7,
-  Hartholzbretter: 0.8,
-  Weichholzbretter: 0.8,
-  Holzkiste: 9,
-  Radspeiche: 2,
-  Whiskeyfass: 7,
-  Seil: 2,
-  Werkzeugstiel: 2.5,
-  Spindel: 7,
+  Gewehrschaft: 18,
   Goldwaschtisch: 25,
-  Verpackung: 2.5,
-  Schleifpapier: 0.7,
+  Hartholz: 0.7,
+  Hartholzbretter: 0.8,
+  Harz: 0.3,
+  Holzkiste: 9,
+  Holzplanke: 0.8,
   Papier: 0.9,
   Pfeifenrohling: 7,
   Poster: 4.5,
+  Radspeiche: 2,
   Repetierschaft: 18,
   RevolverPistolengriff: 18,
-  Gewehrschaft: 18,
+  Sand: 0.3,
+  Schleifpapier: 0.7,
   Schrotflintenschaft: 18,
-
-  // Weitere Verkaufspreise...
+  Seil: 2,
+  Spindel: 7,
+  Verpackung: 2.5,
+  Weichholz: 0.7,
+  Weichholzbretter: 0.8,
+  Werkzeugstiel: 2.5,
+  Whiskeyfass: 7,
+  Zellstoff: 0.3,
+  // Weitere Preise
 };
 
 function formatComparisonPercent(percent) {
@@ -85,7 +84,6 @@ function formatComparisonPercent(percent) {
   } else if (percent > 50) {
     cssClass = "green"; // Über 50%: GRÜN
   }
-
   return cssClass;
 }
 
