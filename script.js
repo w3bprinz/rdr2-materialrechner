@@ -326,10 +326,13 @@ function calculateTotalBuildTime(item, quantity) {
     }
   });
 
-  // Convert total seconds to minutes and round to 2 decimal places
-  const totalTimeMinutes = (totalTimeSeconds / 60).toFixed(2);
-
-  return totalTimeMinutes;
+  if (totalTimeSeconds <= 60) {
+    return `${totalTimeSeconds} sec`;
+  } else {
+    const minutes = Math.floor(totalTimeSeconds / 60);
+    const seconds = totalTimeSeconds % 60;
+    return `${minutes} min ${seconds} sec`;
+  }
 }
 
 // Aktualisieren der Tabelle
@@ -402,6 +405,7 @@ function updateTable() {
     // Comparison (%) cell
     const comparisonPercentCell = document.createElement("td");
     row.appendChild(comparisonPercentCell);
+
     const updateRow = () => {
       const quantity = parseInt(quantityInput.value, 10) || 1;
       const {
@@ -418,10 +422,10 @@ function updateTable() {
       } = calculateCosts(item, quantity);
 
       const totalBuildTime = calculateTotalBuildTime(item, quantity);
-      buildTimeCell.textContent = `${totalBuildTime} min`;
+      buildTimeCell.textContent = totalBuildTime;
 
       // Update cells
-      buildTimeCell.textContent = `${totalBuildTime} min`;
+      buildTimeCell.textContent = `${totalBuildTime}`;
       costCell.textContent = `$${costPerUnit.toFixed(2)}`;
       sellPrice20Cell.textContent = `$${sellingPrice20PerUnit.toFixed(2)}`;
       sellPrice100Cell.textContent = `$${sellingPric50PerUnit.toFixed(2)}`;
