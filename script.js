@@ -14,7 +14,7 @@ const items = [
   { name: "Harz", yield: 10, buildTime: 10, materials: { Baumstamm: 1 } },
   //{ name: "Holzbündel", yield: 1, buildTime: 5, materials: { Werkzeugstiel: 1, Repairkit: 5, Holzkiste: 1, Verpackung: 10 } },
   { name: "Holzplanke", yield: 4, buildTime: 5, materials: { Baumstamm: 1 } },
-  { name: "Holzkiste", yield: 1, materials: { Weichholz: 4, Nägel: 8 } },
+  { name: "Holzkiste", yield: 1, buildTime: 5, materials: { Weichholz: 4, Nägel: 8 } },
   { name: "Papier", yield: 5, buildTime: 5, materials: { Zellstoff: 5 } },
   { name: "Pfeifenrohling", yield: 1, buildTime: 5, materials: { Schleifpapier: 10, Weichholz: 10 } },
   { name: "Poster", yield: 5, buildTime: 5, materials: { Papier: 5 } },
