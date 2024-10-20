@@ -18,11 +18,11 @@ const items = [
   { name: "Papier", yield: 5, buildTime: 5, materials: { Zellstoff: 5 } },
   { name: "Pfeifenrohling", yield: 1, buildTime: 5, materials: { Schleifpapier: 10, Weichholz: 10 } },
   { name: "Poster", yield: 5, buildTime: 5, materials: { Papier: 5 } },
-  { name: "Radspeiche", yield: 1, materials: { Weichholz: 1 } },
+  { name: "Radspeiche", yield: 1, buildTime: 5, materials: { Weichholz: 1 } },
   {
     name: "Repetierschaft",
     yield: 1,
-    buildTime: 3,
+    buildTime: 10,
     materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 },
   },
   {
