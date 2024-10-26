@@ -53,6 +53,7 @@ const items = [
 const prices = {
   Baumstamm: 0.7,
   Baumwollsamen: 0.25,
+  Bienenwachs: 1.5,
   //Harz: 0.3,
   //Weichholz: 0.7,
   //Schleifpapier: 0.5,
