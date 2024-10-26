@@ -1,6 +1,6 @@
 // Definition der herstellbaren Gegenstände (items)
 const items = [
-  { name: "Baumwolle", yield: 6, buildTime: 0, materials: { Baumwollsamen: 1 } },
+  //{ name: "Baumwolle", yield: 6, buildTime: 0, materials: { Baumwollsamen: 1 } },
   { name: "Fasern", yield: 10, buildTime: 2, materials: { Baumstamm: 1 } },
   {
     name: "Gewehrschaft",
@@ -52,7 +52,8 @@ const items = [
 // Materialpreise definieren (Beispiel)
 const prices = {
   Baumstamm: 0.7,
-  Baumwollsamen: 0.25,
+  //Baumwollsamen: 0.25,
+  Baumwolle: 0.3,
   Bienenwachs: 1.5,
   //Harz: 0.3,
   //Weichholz: 0.7,
@@ -68,7 +69,7 @@ const prices = {
 const actualSellingPrices = {
   Fasern: 0.2,
   Gewehrschaft: 8,
-  Goldwaschtisch: 15,
+  Goldwaschtisch: 12,
   Hartholz: 0.5,
   Hartholzbretter: 0.7,
   Harz: 0.2,
@@ -77,7 +78,7 @@ const actualSellingPrices = {
   Papier: 0.5,
   Pfeifenrohling: 6,
   Poster: 0.7,
-  Radspeiche: 2,
+  Radspeiche: 1,
   Repetierschaft: 8,
   RevolverPistolengriff: 8,
   Sand: 0.3,
@@ -88,7 +89,7 @@ const actualSellingPrices = {
   Verpackung: 1,
   Weichholz: 0.5,
   Weichholzbretter: 0.7,
-  Werkzeugstiel: 2.5,
+  Werkzeugstiel: 1.5,
   Whiskeyfass: 7,
   Zellstoff: 0.2,
   // Weitere Preise
