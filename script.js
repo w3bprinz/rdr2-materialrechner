@@ -170,132 +170,63 @@ function getSteps(item, quantity, level = 1) {
   return steps;
 }
 
+function getItemByName(name) {
+  // Diese Funktion sollte das Item-Objekt für den gegebenen Namen zurückgeben
+  // Sie könnte auf eine globale Liste oder ein Objekt von Items zugreifen
+  return allItems.find((item) => item.name === name);
+}
+
 // Berechnung der Kosten und Verkaufspreise
 function calculateCosts(item, quantity) {
-  const dummyContainer = document.createElement("div");
-  const { steps, totalCost } = displaySteps(dummyContainer, item, quantity); // Berechne die gesamten Herstellungskosten
+  function calculateItemCost(currentItem, currentQuantity, depth = 0) {
+    const indent = "  ".repeat(depth);
+    // console.log(`${indent}Berechne Kosten für: ${currentItem.name}, Menge: ${currentQuantity}`);
 
-  // Herstellungskosten pro Stück berechnen
-  const costPerUnit = totalCost / item.yield;
-
-  // Verkaufspreise und Gewinne pro Stück berechnen
-  const sellingPrice20PerUnit = costPerUnit * 1.2;
-  const sellingPric50PerUnit = costPerUnit * 1.5;
-  const profit20PerUnit = sellingPrice20PerUnit - costPerUnit;
-  const profit100PerUnit = sellingPric50PerUnit - costPerUnit;
-
-  // Tatsächlicher Verkaufspreis (pro Stück)
-  const actualSellingPrice = actualSellingPrices[item.name] || 0;
-
-  // Vergleich zwischen dem berechneten Verkaufspreis (+20%) und dem tatsächlichen Verkaufspreis
-  const comparisonDollar = actualSellingPrice - sellingPrice20PerUnit;
-  const comparisonPercent = ((actualSellingPrice - sellingPrice20PerUnit) / sellingPrice20PerUnit) * 100;
-
-  return {
-    totalCost,
-    costPerUnit,
-    sellingPrice20PerUnit,
-    sellingPric50PerUnit,
-    profit20PerUnit,
-    profit100PerUnit,
-    actualSellingPrice,
-    comparisonDollar,
-    comparisonPercent,
-  };
-}
-// Schrittanzeige und Kostenberechnung
-function displaySteps(container, item, quantity) {
-  const steps = getSteps(item, quantity);
-  let totalCost = 0;
-  container.innerHTML = ""; // Vorherigen Inhalt löschen
-
-  steps.forEach((step, index) => {
-    const materials = step.materials.map((material) => `${material.amount} x ${material.name}`).join(" & ");
-
-    // Berechne die Kosten für diesen Schritt
-    const stepCost = step.materials.reduce((sum, material) => {
-      const materialCost = prices[material.name] || 0;
-      return sum + material.amount * materialCost;
-    }, 0);
-
-    totalCost += stepCost;
-
-    // Erstelle den Schritt als <div> mit fettgedrucktem "Schritt X" und Materialien darunter
-    const stepText = document.createElement("div");
-
-    // "Schritt X" als fettgedruckte Überschrift
-    const stepTitle = document.createElement("strong");
-    stepTitle.textContent = `Schritt ${index + 1}: `;
-
-    // Materialien für den Schritt in einer neuen Zeile anzeigen
-    const stepMaterials = document.createElement("span");
-    stepMaterials.innerHTML = `${materials} für ${step.yield * step.batches} x ${step.item}<br>`;
-
-    // Füge alles zusammen
-    stepText.appendChild(stepTitle);
-    stepText.appendChild(stepMaterials);
-
-    // Füge den Schritt in das übergebene Container-Element ein
-    container.appendChild(stepText);
-  });
-
-  return totalCost; // Gesamtkosten zurückgeben
-}
-
-// Berechnung der Schritte
-function getSteps(item, quantity, level = 1) {
-  const steps = [];
-  const batches = Math.ceil(quantity / item.yield);
-
-  // Materialien für den aktuellen Schritt sammeln
-  const materialsForStep = [];
-
-  for (const [material, amount] of Object.entries(item.materials)) {
-    const totalAmount = amount * batches;
-
-    // Prüfe, ob das Material ein herstellbares Produkt ist
-    const subItem = items.find((i) => i.name === material);
-
-    if (subItem) {
-      // Rekursiv die Schritte für das herstellbare Material hinzufügen
-      const subSteps = getSteps(subItem, totalAmount, level + 1);
-      steps.push(...subSteps); // Füge die Sub-Schritte zuerst ein (rekursiv)
+    if (!currentItem) {
+      // console.warn(`${indent}Item nicht gefunden: ${JSON.stringify(currentItem)}`);
+      return 0;
     }
 
-    // Füge das Material zu den Materialien des aktuellen Schritts hinzu
-    materialsForStep.push({ name: material, amount: totalAmount });
+    if (prices[currentItem.name] !== undefined) {
+      // console.log(`${indent}Kaufpreis gefunden für ${currentItem.name}: ${prices[currentItem.name]}`);
+      return prices[currentItem.name] * currentQuantity;
+    } else if (currentItem.materials) {
+      // console.log(`${indent}Berechne Materialkosten für: ${currentItem.name}`);
+      let itemCost = 0;
+      for (const [material, amount] of Object.entries(currentItem.materials)) {
+        // console.log(`${indent}  Suche Material: ${material}`);
+        const materialPrice = prices[material];
+        if (materialPrice !== undefined) {
+          const materialCost = materialPrice * amount * currentQuantity;
+          itemCost += materialCost;
+          // console.log(`${indent}  Materialkosten für ${material}: ${materialCost}`);
+        } else {
+          const materialItem = items.find((i) => i.name === material);
+          if (!materialItem) {
+            // console.warn(`${indent}  Material nicht gefunden: ${material} für Item: ${currentItem.name}`);
+            // console.log(`${indent}  Verfügbare Items:`, items.map(i => i.name));
+            continue;
+          }
+          const materialCost = calculateItemCost(materialItem, amount * currentQuantity, depth + 1);
+          itemCost += materialCost;
+        }
+      }
+      const finalCost = itemCost / (currentItem.yield || 1);
+      // console.log(`${indent}Gesamtkosten für ${currentItem.name}: ${finalCost}`);
+      return finalCost;
+    }
+    // console.warn(`${indent}Keine Preisinformationen für: ${currentItem.name}`);
+    return 0;
   }
 
-  // Füge den aktuellen Schritt für das Produkt hinzu
-  steps.push({
-    level,
-    item: item.name,
-    yield: item.yield,
-    batches,
-    materials: materialsForStep,
-  });
-
-  return steps;
-}
-
-// Berechnung der Kosten und Verkaufspreise
-function calculateCosts(item, quantity) {
-  const dummyContainer = document.createElement("div");
-
-  // Berechne die tatsächliche Menge, die durch item.yield teilbar ist
-  const adjustedQuantity = Math.ceil(quantity / item.yield) * item.yield;
-
-  // Gesamtkosten für die angepasste Menge berechnen
-  const totalCost = displaySteps(dummyContainer, item, adjustedQuantity);
-
-  // Herstellungskosten pro Stück
-  const costPerUnit = totalCost / adjustedQuantity;
+  const totalCost = calculateItemCost(item, quantity);
+  const costPerUnit = totalCost / quantity;
 
   // Verkaufspreise und Gewinne pro Stück berechnen
   const sellingPrice20PerUnit = costPerUnit * 1.2;
-  const sellingPric50PerUnit = costPerUnit * 2.0;
+  const sellingPrice50PerUnit = costPerUnit * 1.5;
   const profit20PerUnit = sellingPrice20PerUnit - costPerUnit;
-  const profit100PerUnit = sellingPric50PerUnit - costPerUnit;
+  const profit50PerUnit = sellingPrice50PerUnit - costPerUnit;
 
   // Tatsächlicher Verkaufspreis (pro Stück)
   const actualSellingPrice = actualSellingPrices[item.name] || 0;
@@ -308,15 +239,15 @@ function calculateCosts(item, quantity) {
     totalCost,
     costPerUnit,
     sellingPrice20PerUnit,
-    sellingPric50PerUnit,
+    sellingPrice50PerUnit,
     profit20PerUnit,
-    profit100PerUnit,
+    profit50PerUnit,
     actualSellingPrice,
     comparisonDollar,
     comparisonPercent,
-    adjustedQuantity, // Neue Menge zurückgeben
   };
 }
+
 function calculateTotalBuildTime(item, quantity) {
   const steps = getSteps(item, quantity);
   let totalTimeSeconds = 0;
@@ -414,13 +345,12 @@ function updateTable() {
         totalCost,
         costPerUnit,
         sellingPrice20PerUnit,
-        sellingPric50PerUnit,
+        sellingPrice50PerUnit,
         profit20PerUnit,
-        profit100PerUnit,
+        profit50PerUnit,
         actualSellingPrice,
         comparisonDollar,
         comparisonPercent,
-        adjustedQuantity,
       } = calculateCosts(item, quantity);
 
       const totalBuildTime = calculateTotalBuildTime(item, quantity);
@@ -430,9 +360,9 @@ function updateTable() {
       buildTimeCell.textContent = `${totalBuildTime}`;
       costCell.textContent = `$${costPerUnit.toFixed(2)}`;
       sellPrice20Cell.textContent = `$${sellingPrice20PerUnit.toFixed(2)}`;
-      sellPrice100Cell.textContent = `$${sellingPric50PerUnit.toFixed(2)}`;
+      sellPrice100Cell.textContent = `$${sellingPrice50PerUnit.toFixed(2)}`;
       profit20Cell.textContent = `$${profit20PerUnit.toFixed(2)}`;
-      profit100Cell.textContent = `$${profit100PerUnit.toFixed(2)}`;
+      profit100Cell.textContent = `$${profit50PerUnit.toFixed(2)}`;
       actualSellPriceCell.textContent = `$${actualSellingPrice.toFixed(2)}`;
       comparisonDollarCell.textContent = `$${comparisonDollar.toFixed(2)}`;
       comparisonPercentCell.textContent = `${comparisonPercent.toFixed(2)}%`;
