@@ -102,6 +102,11 @@ body {
   padding: 0;
 }
 
+h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.4rem;
+}
+
 .header {
   display: flex;
   padding: 20px;
@@ -179,8 +184,32 @@ input {
   padding: 0.5rem;
   margin: 1rem 0;
   width: 200px;
-  border: 1px solid #ccc;
   border-radius: 4px;
+  border: 1px solid rgb(40, 40, 40);
+}
+
+/* Platzhaltertext-Farbe für verschiedene Browser */
+.password-container input::placeholder {
+  color: rgb(40, 40, 40); /* Grau oder eine andere Farbe Ihrer Wahl */
+  opacity: 1; /* Firefox benötigt dies */
+}
+
+/* Für ältere Browser */
+.password-container input::-webkit-input-placeholder {
+  /* Chrome/Safari/Opera */
+  color: rgb(40, 40, 40);
+}
+.password-container input::-moz-placeholder {
+  /* Firefox */
+  color: rgb(40, 40, 40);
+}
+.password-container input:-ms-input-placeholder {
+  /* IE/Edge */
+  color: rgb(40, 40, 40);
+}
+.password-container input:-moz-placeholder {
+  /* Ältere Firefox-Versionen */
+  color: rgb(40, 40, 40);
 }
 
 .password-container button {
