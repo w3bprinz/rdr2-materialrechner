@@ -1,2 +1,54 @@
-index.html
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor/IDE-Dateien
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# PHP-Dateien mit sensiblen Daten
 generate_hash.php
+password_config.php
+
+# Temporäre Dateien
+*.tmp
+*.temp
+*.log
+
+# Abhängigkeiten und Build-Verzeichnisse
+/node_modules/
+/vendor/
+/dist/
+/build/
+
+# Umgebungsvariablen und Konfigurationsdateien
+.env
+.env.local
+config.php
+database.php
+
+# Backup-Dateien
+*.bak
+*.backup
+
+# Debug-Dateien
+debug.log
+error_log
+php_errors.log
+
+# Sicherheitskopien
+*copy*
+*backup*
+
+# Lokale Entwicklungsdateien
+local.*
+dev.*
+test.*
+
+# Spezifische Projektdateien mit sensiblen Daten
+secure_config.php
+credentials.php
