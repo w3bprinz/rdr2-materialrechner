@@ -34,6 +34,20 @@ const items = [
   { name: "Sand", yield: 2, buildTime: 4, materials: { Stein: 1 } },
   { name: "Schleifpapier", yield: 5, buildTime: 4, materials: { Sand: 5, Harz: 5 } },
   {
+    name: "Schreiner Strawberry Kiste",
+    yield: 2,
+    buildTime: 5,
+    materials: {
+      Holzkiste: 2,
+      Whiskeyfass: 6,
+      Werkzeugstiel: 10,
+      Spindel: 10,
+      Radspeiche: 10,
+      Holzbundel: 10,
+      Seil: 10,
+    },
+  },
+  {
     name: "Schrotflintenschaft",
     yield: 1,
     buildTime: 10,
