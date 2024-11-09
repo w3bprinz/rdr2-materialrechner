@@ -16,7 +16,7 @@ const items = [
     name: "Holzbündel",
     yield: 1,
     buildTime: 5,
-    materials: { Werkzeugstiel: 1, Repairkit: 5, Holzkiste: 1, Verpackung: 10 },
+    materials: { Werkzeugstiel: 10, Repairkit: 5, Holzkiste: 1, Verpackung: 10 },
   },
   { name: "Holzplanke", yield: 4, buildTime: 5, materials: { Baumstamm: 1 } },
   { name: "Holzkiste", yield: 1, buildTime: 5, materials: { Weichholz: 4, Nägel: 8 } },
