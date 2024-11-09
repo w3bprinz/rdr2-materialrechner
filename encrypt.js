@@ -1,0 +1,121 @@
+// Dieses Skript einmalig ausführen, um die Daten zu verschlüsseln
+const CryptoJS = require("crypto-js");
+
+const data = {
+  items: [
+    //{ name: "Baumwolle", yield: 6, buildTime: 0, materials: { Baumwollsamen: 1 } },
+    { name: "Fasern", yield: 10, buildTime: 2, materials: { Baumstamm: 1 } },
+    {
+      name: "Gewehrschaft",
+      yield: 1,
+      buildTime: 10,
+      materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 },
+    },
+    { name: "Goldwaschtisch", yield: 1, buildTime: 10, materials: { Weichholz: 5, Hartholz: 5, Nägel: 10 } },
+    { name: "Hartholz", yield: 5, buildTime: 2, materials: { Baumstamm: 1 } },
+    { name: "Hartholzbretter", yield: 5, buildTime: 2, materials: { Hartholz: 2 } },
+    { name: "Harz", yield: 10, buildTime: 10, materials: { Baumstamm: 1 } },
+    {
+      name: "Holzbündel",
+      yield: 1,
+      buildTime: 5,
+      materials: { Werkzeugstiel: 1, Repairkit: 5, Holzkiste: 1, Verpackung: 10 },
+    },
+    { name: "Holzplanke", yield: 4, buildTime: 5, materials: { Baumstamm: 1 } },
+    { name: "Holzkiste", yield: 1, buildTime: 5, materials: { Weichholz: 4, Nägel: 8 } },
+    { name: "Papier", yield: 5, buildTime: 5, materials: { Zellstoff: 5 } },
+    { name: "Pfeifenrohling", yield: 1, buildTime: 5, materials: { Schleifpapier: 10, Weichholz: 10 } },
+    { name: "Poster", yield: 5, buildTime: 5, materials: { Papier: 5 } },
+    { name: "Radspeiche", yield: 1, buildTime: 5, materials: { Weichholz: 1 } },
+    {
+      name: "Repetierschaft",
+      yield: 1,
+      buildTime: 10,
+      materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 },
+    },
+    {
+      name: "RevolverPistolengriff",
+      yield: 1,
+      buildTime: 10,
+      materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 },
+    },
+    { name: "Sand", yield: 2, buildTime: 4, materials: { Stein: 1 } },
+    { name: "Schleifpapier", yield: 5, buildTime: 4, materials: { Sand: 5, Harz: 5 } },
+    {
+      name: "SchreinerKiste",
+      yield: 2,
+      buildTime: 5,
+      materials: {
+        Holzkiste: 2,
+        Whiskeyfass: 6,
+        Werkzeugstiel: 10,
+        Spindel: 10,
+        Radspeiche: 10,
+        Holzbündel: 10,
+        Seil: 10,
+      },
+    },
+    {
+      name: "Schrotflintenschaft",
+      yield: 1,
+      buildTime: 10,
+      materials: { Harz: 2, Hartholz: 4, Schleifpapier: 1, Bienenwachs: 1 },
+    },
+    { name: "Seil", yield: 1, buildTime: 5, materials: { Zellstoff: 1, Baumwolle: 3 } },
+    //{ name: "Spindel", yield: 1, buildTime: 5, materials: { Weichholz: 1 } },
+    { name: "Verpackung", yield: 5, buildTime: 2, materials: { Papier: 10 } },
+    { name: "Weichholz", yield: 5, buildTime: 2, materials: { Baumstamm: 2 } },
+    { name: "Weichholzbretter", yield: 5, buildTime: 2, materials: { Weichholz: 2 } },
+    { name: "Werkzeugstiel", yield: 2, buildTime: 5, materials: { Schleifpapier: 2, Hartholz: 2 } },
+    { name: "Whiskeyfass", yield: 10, buildTime: 5, materials: { Hartholzbretter: 20, Fassbänder: 20 } },
+    { name: "Zellstoff", yield: 10, buildTime: 2, materials: { Baumstamm: 1 } },
+  ],
+  prices: {
+    Baumstamm: 0.7,
+    //Baumwollsamen: 0.25,
+    Baumwolle: 0.3,
+    Bienenwachs: 1.5,
+    //Harz: 0.3,
+    //Weichholz: 0.7,
+    //Schleifpapier: 0.5,
+    Fassbänder: 2.2,
+    Nägel: 0.35,
+    Stein: 0.1,
+  },
+  actualSellingPrices: {
+    Fasern: 0.2,
+    Gewehrschaft: 8,
+    Goldwaschtisch: 12,
+    Hartholz: 0.5,
+    Hartholzbretter: 0.7,
+    Harz: 0.2,
+    Holzplanke: 0.7,
+    Holzkiste: 5,
+    Papier: 0.5,
+    Pfeifenrohling: 6,
+    Poster: 0.7,
+    Radspeiche: 1,
+    Repetierschaft: 8,
+    RevolverPistolengriff: 8,
+    Sand: 0.3,
+    Schleifpapier: 0.5,
+    Schrotflintenschaft: 8,
+    Seil: 2,
+    Spindel: 7,
+    Verpackung: 1,
+    Weichholz: 0.5,
+    Weichholzbretter: 0.7,
+    Werkzeugstiel: 1.5,
+    Whiskeyfass: 7,
+    Zellstoff: 0.2,
+    SchreinerKiste: 880,
+  },
+};
+
+const password = "LemonHaze";
+const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), password).toString();
+
+// In data.enc speichern
+const fs = require("fs");
+fs.writeFileSync("data.enc", encrypted);
+console.log("Verschlüsselte Datei wurde erstellt!");
