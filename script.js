@@ -80,7 +80,7 @@ const prices = {
   Fassbänder: 2.2,
   Nägel: 0.35,
   Stein: 0.1,
-  Repairkit: 10,
+  Repairkit: 15,
   // Weitere Materialien mit Preisen
 };
 
