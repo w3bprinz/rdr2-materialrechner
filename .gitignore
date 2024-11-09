@@ -11,6 +11,7 @@ desktop.ini
 *~
 
 # PHP-Dateien mit sensiblen Daten
+generate_hash.php
 password_config.php
 
 # Temporäre Dateien
@@ -52,5 +53,5 @@ test.*
 secure_config.php
 credentials.php
 
-##
+## HTML
 index.html

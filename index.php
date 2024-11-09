@@ -2,7 +2,7 @@
 session_start();
 
 // Passwort-Hash (generiert mit password_hash)
-$correct_hash = 'LemonHaze'; // Ersetzen Sie dies mit Ihrem eigenen Hash
+$correct_hash = 'TGVtb25IYXpl'; // Ersetzen Sie dies mit Ihrem eigenen Hash
 
 // Überprüfen, ob bereits eingeloggt
 if (!isset($_SESSION['authenticated'])) {
