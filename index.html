@@ -5,36 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="style.css" />
-    <title>Materialrechner</title>
+    <title>Login - Materialrechner</title>
   </head>
   <body>
-    <div class="container roboto-regular">
-      <div class="header rye-regular">
-        <img id="logo" src="./src/img/logo.png" alt="LOGO" />
-        <h1>ABRUZI & CO. KG - MATERIALRECHNER</h1>
+    <!-- Login-Overlay -->
+    <div id="login-overlay" class="password-overlay">
+      <div class="password-container">
+        <img id="login-logo" src="./src/img/logo.png" alt="LOGO" />
+        <h2>Passwort erforderlich</h2>
+        <div id="error-message" style="color: red; display: none">Falsches Passwort!</div>
+        <input type="password" id="password-input" placeholder="Passwort eingeben" />
+        <button onclick="checkPassword()">Einloggen</button>
       </div>
-      <table id="item-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Yield</th>
-            <th>Quantity</th>
-            <th>Materials</th>
-            <th>Build Time</th>
-            <th>Steps</th>
-            <th>Cost</th>
-            <th>Sell Price (+20%)</th>
-            <th>Sell Price (+50%)</th>
-            <th>Profit (+20%)</th>
-            <th>Profit (+50%)</th>
-            <th>Actual Sell Price</th>
-            <th>Comparison ($)</th>
-            <th>Comparison (%)</th>
-          </tr>
-        </thead>
-        <tbody id="item-list"></tbody>
-      </table>
     </div>
+
+    <!-- Hauptinhalt (versteckt bis Login) -->
+    <div id="main-content" style="display: none">
+      <div class="container roboto-regular">
+        <div class="header rye-regular">
+          <img id="logo" src="./src/img/logo.png" alt="LOGO" />
+          <h1>ABRUZI & CO. KG - MATERIALRECHNER</h1>
+        </div>
+        <table id="item-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Yield</th>
+              <th>Quantity</th>
+              <th>Materials</th>
+              <th>Build Time</th>
+              <th>Steps</th>
+              <th>Cost</th>
+              <th>Sell Price (+20%)</th>
+              <th>Sell Price (+50%)</th>
+              <th>Profit (+20%)</th>
+              <th>Profit (+50%)</th>
+              <th>Actual Sell Price</th>
+              <th>Comparison ($)</th>
+              <th>Comparison (%)</th>
+            </tr>
+          </thead>
+          <tbody id="item-list"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      // Passwort-Hash (mit SHA-256)
+      const CORRECT_HASH = "TGVtb25IYXpl"; // Das ist der Hash für 'password'
+
+      // Hash-Funktion
+      async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+        return hashHex;
+      }
+
+      // Passwort überprüfen
+      async function checkPassword() {
+        const input = document.getElementById("password-input").value;
+        const inputHash = await sha256(input);
+
+        if (inputHash === CORRECT_HASH) {
+          // Passwort korrekt
+          document.getElementById("login-overlay").style.display = "none";
+          document.getElementById("main-content").style.display = "block";
+          // Speichere Login-Status
+          sessionStorage.setItem("authenticated", "true");
+        } else {
+          // Passwort falsch
+          document.getElementById("error-message").style.display = "block";
+          document.getElementById("password-input").value = "";
+        }
+      }
+
+      // Enter-Taste abfangen
+      document.getElementById("password-input").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          checkPassword();
+        }
+      });
+
+      // Beim Laden prüfen, ob bereits eingeloggt
+      window.onload = function () {
+        if (sessionStorage.getItem("authenticated") === "true") {
+          document.getElementById("login-overlay").style.display = "none";
+          document.getElementById("main-content").style.display = "block";
+        }
+      };
+    </script>
     <script src="script.js"></script>
   </body>
 </html>

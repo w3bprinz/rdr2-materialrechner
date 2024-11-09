@@ -52,6 +52,3 @@ test.*
 # Spezifische Projektdateien mit sensiblen Daten
 secure_config.php
 credentials.php
-
-## HTML
-index.html
