@@ -10,6 +10,9 @@ desktop.ini
 *.swo
 *~
 
+#Javascript dateien mit sensiblen Daten
+login.js
+
 # PHP-Dateien mit sensiblen Daten
 generate_hash.php
 password_config.php
