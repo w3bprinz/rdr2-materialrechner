@@ -70,7 +70,7 @@ const items = [
 
 // Materialpreise definieren (Beispiel)
 const prices = {
-  Baumstamm: 0.7,
+  Baumstamm: 0.8,
   //Baumwollsamen: 0.25,
   Baumwolle: 0.3,
   Bienenwachs: 1.5,
